@@ -21,26 +21,26 @@ public class NoteController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @PostMapping(value= "/create")
-    public String create(@RequestBody Note note) {
-        logger.debug("Saving employees.");
+    @PostMapping(value= "/save")
+    public String save(@RequestBody Note note) {
+        logger.debug("Saving note.");
         noteService.save(note);
         return "Note records created.";
     }
 
-    @GetMapping(value= "/getall")
-    public List<Note> getAll() {
+    @GetMapping(value= "/findall")
+    public List<Note> findAll() {
         logger.debug("Getting all notes.");
         return noteService.findAll();
     }
-    
-    @GetMapping(value= "/getbyid/{note-id}")
-    public Optional<Note> getById(@PathVariable(value= "note-id") int id) {
+
+    @GetMapping(value= "/findbyid/{note-id}")
+    public Optional<Note> findById(@PathVariable(value= "note-id") int id) {
         logger.debug("Getting note with note-id= {}.", id);
         return noteService.findById(id);
     }
 
-    @PutMapping(value= "/update/{employee-id}")
+    @PutMapping(value= "/update/{note-id}")
     public String update(@PathVariable(value= "note-id") int id, @RequestBody Note note) {
         logger.debug("Updating note with note-id= {}.", id);
         note.setID(id);
@@ -49,8 +49,8 @@ public class NoteController {
     }
 
     @DeleteMapping(value= "/delete/{note-id}")
-    public String delete(@PathVariable(value= "employee-id") int id) {
-        logger.debug("Deleting employee with employee-id= {}.", id);
+    public String delete(@PathVariable(value= "note-id") int id) {
+        logger.debug("Deleting note with note-id= {}.", id);
         noteService.deleteById(id);
         return "Note record for note-id= " + id + " deleted.";
     }

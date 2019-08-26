@@ -12,50 +12,50 @@ public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="Id")
-    private int noteID;
+    private int ID;
 
-    @Column(name="noteName")
-    private String noteName;
+    @Column(name="name")
+    private String name;
 
-    @Column(name="noteContent")
-    private String noteContent;
+    @Column(name="content")
+    private String content;
 
-    @Column(name="noteDate")
-    private Date noteDate;
+    @Column(name="date")
+    private Date date;
 
     @Column(name="location")
     private String location;
 
-    public int getNoteID() {
-        return noteID;
+    public int getID() {
+        return ID;
     }
 
-    public void setNoteID(int noteID) {
-        this.noteID = noteID;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
-    public String getNoteName() {
-        return noteName;
+    public String getName() {
+        return name;
     }
 
-    public void setNoteName(String noteName) {
-        this.noteName = noteName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getNoteContent() {
-        return noteContent;
+    public String getContent() {
+        return content;
     }
 
-    public void setNoteContent(String noteContent) {
-        this.noteContent = noteContent;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public Date getNoteDate() {
-        return noteDate;
+    public Date getDate() {
+        return date;
     }
 
-    public void setNoteDate(Date noteDate) {
-        this.noteDate = noteDate;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public String getLocation() {

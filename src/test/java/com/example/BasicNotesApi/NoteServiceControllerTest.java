@@ -40,8 +40,10 @@ public class NoteServiceControllerTest extends AbstractTest {
         public void createNote() throws Exception {
             String uri = "/note";
             Note note = new Note();
-            note.setNoteID(3);
-            note.setNoteName("Test");
+            note.setID(3);
+            note.setName("Test");
+            note.setContent("this is a test note.");
+            note.setLocation("Istanbul");
             String inputJson = super.mapToJson(note);
             MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(uri)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -56,7 +58,7 @@ public class NoteServiceControllerTest extends AbstractTest {
         public void updateNote() throws Exception {
             String uri = "/note/2";
             Note note = new Note();
-            note.setNoteName("Test2");
+            note.setName("Test2");
             String inputJson = super.mapToJson(note);
             MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.put(uri)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)

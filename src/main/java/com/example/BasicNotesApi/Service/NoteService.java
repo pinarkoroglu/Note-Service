@@ -38,5 +38,4 @@ public class NoteService {
         noteRepository.deleteAll();
     }
 
-    //TODO add location and date some notes
 }

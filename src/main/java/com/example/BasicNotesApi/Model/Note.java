@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 
-@Document(collection="employee")
+@Document(collection="notes")
 public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

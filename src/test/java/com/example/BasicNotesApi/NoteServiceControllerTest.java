@@ -10,6 +10,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.text.SimpleDateFormat;
+
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 
@@ -38,12 +40,13 @@ public class NoteServiceControllerTest extends AbstractTest {
         }
         @Test
         public void createNote() throws Exception {
-            String uri = "/note";
+            String uri = "/notes";
             Note note = new Note();
             note.setID(3);
             note.setName("Test");
             note.setContent("this is a test note.");
             note.setLocation("Istanbul");
+            note.setDate(new SimpleDateFormat("dd/MM/yyyy").parse("26/08/2019"));
             String inputJson = super.mapToJson(note);
             MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(uri)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -56,7 +59,7 @@ public class NoteServiceControllerTest extends AbstractTest {
         }
         @Test
         public void updateNote() throws Exception {
-            String uri = "/note/2";
+            String uri = "/notes/2";
             Note note = new Note();
             note.setName("Test2");
             String inputJson = super.mapToJson(note);
@@ -71,7 +74,7 @@ public class NoteServiceControllerTest extends AbstractTest {
         }
         @Test
         public void deleteNote() throws Exception {
-            String uri = "/note/2";
+            String uri = "/notes/2";
             MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.delete(uri)).andReturn();
             int status = mvcResult.getResponse().getStatus();
             assertEquals(200, status);

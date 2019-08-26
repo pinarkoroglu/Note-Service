@@ -1,13 +1,13 @@
 package com.example.BasicNotesApi.Model;
 
 import lombok.Data;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.*;
 import java.util.Date;
 
-@Data
-@Entity
-@Table(name="note")
+
+@Document(collection="employee")
 public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

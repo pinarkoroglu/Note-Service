@@ -26,6 +26,16 @@ public class Note {
     @Column(name="location")
     private String location;
 
+    public Note(String name, String content, Date date, String location) {
+        this.name = name;
+        this.content = content;
+        this.date = date;
+        this.location = location;
+    }
+
+    public Note(){
+    }
+
     public int getID() {
         return ID;
     }

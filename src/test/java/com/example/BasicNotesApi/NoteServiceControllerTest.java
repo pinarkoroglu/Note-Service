@@ -1,9 +1,11 @@
 package com.example.BasicNotesApi;
 
 import com.example.BasicNotesApi.Model.Note;
+import com.example.BasicNotesApi.Repository.NoteRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -11,6 +13,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
@@ -21,6 +24,9 @@ public class NoteServiceControllerTest extends AbstractTest {
     @RunWith(SpringRunner.class)
     @SpringBootTest
     public class BasicNotesApiApplicationTests extends AbstractTest{
+        @Autowired
+        private NoteRepository noteRepository;
+
         @Override
         @Before
         public void setUp() {
@@ -41,11 +47,8 @@ public class NoteServiceControllerTest extends AbstractTest {
         @Test
         public void createNote() throws Exception {
             String uri = "/notes";
-            Note note = new Note();
-            note.setID(3);
-            note.setName("Test");
-            note.setContent("this is a test note.");
-            note.setLocation("Istanbul");
+            Date date = new Date();
+            Note note = new Note("UpdateTest","lorem ipsum",date,"somewhere");
             note.setDate(new SimpleDateFormat("dd/MM/yyyy").parse("26/08/2019"));
             String inputJson = super.mapToJson(note);
             MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(uri)
@@ -59,9 +62,14 @@ public class NoteServiceControllerTest extends AbstractTest {
         }
         @Test
         public void updateNote() throws Exception {
-            String uri = "/notes/2";
-            Note note = new Note();
-            note.setName("Test2");
+            Date date = new Date();
+            int id = noteRepository.getNextId();
+            Note note = new Note("UpdateTest","lorem ipsum",date,"somewhere");
+            note.setID(id);
+            noteRepository.save(note);
+            String uri = "/note/"+id;
+            note.setName("test-name");
+            note.setContent("test-content");
             String inputJson = super.mapToJson(note);
             MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.put(uri)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -74,7 +82,12 @@ public class NoteServiceControllerTest extends AbstractTest {
         }
         @Test
         public void deleteNote() throws Exception {
-            String uri = "/notes/2";
+            Date date = new Date();
+            int id = noteRepository.getNextId();
+            Note note = new Note("DeleteTest","lorem ipsum",date,"somewhere");
+            note.setID(id);
+            noteRepository.save(note);
+            String uri = "/note/"+id;
             MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.delete(uri)).andReturn();
             int status = mvcResult.getResponse().getStatus();
             assertEquals(200, status);

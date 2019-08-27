@@ -54,7 +54,7 @@ public class NoteController {
     }
 
     @DeleteMapping(value= "/notes/{id}")
-    public void delete(@PathVariable(value= "id") int id) {
+    public void delete(@PathVariable(value= "id") long id) {
         logger.debug("Deleting note with note-id= {}.", id);
         noteService.deleteById(id);
     }

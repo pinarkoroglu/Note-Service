@@ -18,7 +18,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
@@ -38,22 +37,10 @@ public class NoteServiceControllerTest extends AbstractTest{
         super.setUp();
     }
     @Test
-    public void getNoteList() throws Exception {
-        String uri = "/notes";
-        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)
-                .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
-
-        int status = mvcResult.getResponse().getStatus();
-        assertEquals(200, status);
-        String content = mvcResult.getResponse().getContentAsString();
-        Note[] notelist = super.mapFromJson(content, Note[].class);
-        assertTrue(notelist.length > 0);
-    }
-    @Test
     public void createNote() throws Exception {
         String uri = "/notes";
         Date date = new Date();
-        Note note = new Note("Test","test",date,"somewhere");
+        Note note = new Note("Test","Test Content",date,"somewhere");
         note.setDate(new SimpleDateFormat("dd/MM/yyyy").parse("26/08/2019"));
         String inputJson = super.mapToJson(note);
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(uri)
@@ -64,10 +51,19 @@ public class NoteServiceControllerTest extends AbstractTest{
         assertEquals(201, status);
     }
     @Test
+    public void getNoteList() throws Exception {
+        String uri = "/notes";
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)
+                .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+
+        int status = mvcResult.getResponse().getStatus();
+        assertEquals(200, status);
+    }
+    @Test
     public void updateNote() throws Exception {
         Date date = new Date();
         long id = maxId();
-        Note note = new Note("UpdateTest","test",date,"somewhere");
+        Note note = new Note("UpdateTest","Test Content",date,"somewhere");
         note.setID(id);
         noteRepository.save(note);
         String uri = "/notes/"+id;
@@ -85,7 +81,7 @@ public class NoteServiceControllerTest extends AbstractTest{
     public void deleteNote() throws Exception {
         Date date = new Date();
         long id = maxId();
-        Note note = new Note("DeleteTest","test",date,"somewhere");
+        Note note = new Note("DeleteTest","Test Content",date,"somewhere");
         note.setID(id);
         noteRepository.save(note);
         String uri = "/notes/"+id;
@@ -96,6 +92,7 @@ public class NoteServiceControllerTest extends AbstractTest{
 
     private long maxId(){
         List<DatabaseSequence> note = mongoOperation.find(query(where("_id").is(Note.SEQUENCE_NAME)), DatabaseSequence.class);
-        return note.get(0).getSeq();
+        return (note.size() == 0) ?  1: note.get(0).getSeq();
+
     }
 }

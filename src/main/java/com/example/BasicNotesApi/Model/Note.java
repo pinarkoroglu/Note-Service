@@ -1,30 +1,23 @@
 package com.example.BasicNotesApi.Model;
 
-import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
 import java.util.Date;
 
 
 @Document(collection="notes")
 public class Note {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="Id")
-    private int ID;
-
-    @Column(name="name")
+    private long ID;
     private String name;
-
-    @Column(name="content")
     private String content;
-
-    @Column(name="date")
     private Date date;
-
-    @Column(name="location")
     private String location;
+
+    @Transient
+    public static final String SEQUENCE_NAME = "notes_sequence";
 
     public Note(String name, String content, Date date, String location) {
         this.name = name;
@@ -33,14 +26,15 @@ public class Note {
         this.location = location;
     }
 
-    public Note(){
+    public Note() {
     }
 
-    public int getID() {
+
+    public long getID() {
         return ID;
     }
 
-    public void setID(int ID) {
+    public void setID(long ID) {
         this.ID = ID;
     }
 

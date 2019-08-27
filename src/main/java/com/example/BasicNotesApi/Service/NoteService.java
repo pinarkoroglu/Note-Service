@@ -18,7 +18,7 @@ public class NoteService {
         return noteRepository.findAll();
     }
 
-    public Optional<Note> findById(int id) {
+    public Optional<Note> findById(long id) {
         return noteRepository.findById(id);
     }
 
@@ -26,7 +26,7 @@ public class NoteService {
         return noteRepository.save(note);
     }
 
-    public void deleteById(int id) {
+    public void deleteById(long id) {
         noteRepository.deleteById(id);
     }
 
